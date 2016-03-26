@@ -1,107 +1,103 @@
 var canvas = document.getElementById("canvas");
-var ctx = canvas.getContext("2d",{antialias:true,antialiasSamples:4});
+var ctx = canvas.getContext("2d",{ antialias:true, antialiasSamples:4, alpha: false});
 
 var width = window.innerWidth; // dimensions of our screen
 var height = window.innerHeight; // dimensions of our screen
 var level = 1;
+var levelScreenStartTime;
+var LEVEL_MESSAGE_DURATION = 2500;
+var showSplashScreen = true;
+var startGame = true;
+
+//TODO:move to json file
 var levels = {
     "level-1": {
-        "message": "Level 1",
+        "message": "Entering Level 1",
         "gears": [
                   {
-                  "position": { "x": 200, "y": 100 },
+                  "position": { "x": 300, "y": 300 },
                   "arms": [
-                           { "angle": 20, "length": 120, "speed": 4 },
-                           { "angle": 190, "length": 120, "speed": 2 },
-                           { "angle": 95, "length": 140, "speed": 2.2 }
+                           { "angle": 45, "length": 120, "speed": 2 },
+                           { "angle": 90, "length": 120, "speed": 2 },
+                           { "angle": 135, "length": 150, "speed":2 },
+                           { "angle": 180, "length": 140, "speed": 2.2 },
+                           { "angle": 225, "length": 140, "speed":2.2}
                     ]
                   }
                   ]
     },
     "level-2": {
+        "message": "Level 2",
         "gears": [
                   {
-                  "position": { "x": 70, "y": 100 },
+                  "position": { "x": 0, "y": 100 },
                   "arms": [
-                           { "angle": 220, "length": 50, "speed": 1.6 },
-                           { "angle": 190, "length": 20, "speed": 2 },
-                           { "angle": 95, "length": 40, "speed": 2.2 }
+                           { "angle": 45, "length": 180, "speed": 1.6 },
+                           { "angle": 90, "length": 180, "speed": 2 },
+                           { "angle": 135, "length": 180, "speed": 2 }
                            ]
                   },
                   {
-                  "position": { "x": 100, "y": 100 },
+                  "position": { "x": width, "y": 380 },
                   "arms": [
-                           { "angle": 220, "length": 50, "speed": 1.6 },
-                           { "angle": 190, "length": 20, "speed": 2 },
-                           { "angle": 95, "length": 40, "speed": 2.2 }
+                           { "angle": 45, "length": 180, "speed": 2.6 },
+                           { "angle": 90, "length": 180, "speed": 2.6 },
+                           { "angle": 135, "length": 180, "speed": 2.6 },
+                           { "angle": 180, "length": 180, "speed": 2.6 },
+                           { "angle": 225, "length": 180, "speed": 2.6 }
                            ]
                   }
         ]
     },
     "level-3": {
-        "message": "Level 1",
+        "message": "Level 3",
         "gears": [
                   {
-                  "position": { "x": 70, "y": 100 },
+                  "position": { "x": 0, "y": 400 },
                   "arms": [
-                           { "angle": 220, "length": 50, "speed": 1.6 },
-                           { "angle": 190, "length": 20, "speed": 2 },
-                           { "angle": 95, "length": 40, "speed": 2.2 }
+                           { "angle": 0, "length": 180, "speed": 2.3 },
+                           { "angle": 120, "length": 180, "speed": 2.3 },
+                           { "angle": 240, "length": 180, "speed": 2.3 }
                            ]
                   },
                   {
-                  "position": { "x": 150, "y": 200 },
+                  "position": { "x": width, "y": 0 },
                   "arms": [
-                           { "angle": 220, "length": 50, "speed": 1.6 },
-                           { "angle": 190, "length": 20, "speed": 2 },
-                           { "angle": 95, "length": 40, "speed": 2.2 }
-                           ]
-                  },
-                  {
-                  "position": { "x": 125, "y": 20 },
-                  "arms": [
-                           { "angle": 220, "length": 50, "speed": 1.6 },
-                           { "angle": 190, "length": 20, "speed": 2 },
-                           { "angle": 95, "length": 40, "speed": 2.2 }
+                           { "angle": 0, "length": 180, "speed": 2.3 },
+                           { "angle": 120, "length": 180, "speed": 2.3 },
+                           { "angle": 240, "length": 180, "speed": 2.3 }
                            ]
                   }
                   ]
     },
+    //TODO:FINISH LAYOUT OF LEVELS
     "level-4": {
         "message": "Level 4",
         "gears": [
                   {
                   "position": { "x": 70, "y": 100 },
                   "arms": [
-                           { "angle": 220, "length": 50, "speed": 1.6 },
-                           { "angle": 190, "length": 20, "speed": 2 },
-                           { "angle": 95, "length": 40, "speed": 2.2 }
+                           { "angle": 0, "length": 180, "speed": 2.3 },
+                           { "angle": 120, "length": 180, "speed": 2.3 },
+                           { "angle": 240, "length": 180, "speed": 2.3 }
                            ]
                   },
                   {
                   "position": { "x": 150, "y": 200 },
                   "arms": [
-                           { "angle": 220, "length": 50, "speed": 1.6 },
-                           { "angle": 190, "length": 20, "speed": 2 },
-                           { "angle": 95, "length": 40, "speed": 2.2 }
+                           { "angle": 0, "length": 180, "speed": 2.3 },
+                           { "angle": 120, "length": 180, "speed": 2.3 },
+                           { "angle": 240, "length": 180, "speed": 2.3 }
                            ]
                   },
                   {
                   "position": { "x": 125, "y": 20 },
                   "arms": [
-                           { "angle": 220, "length": 50, "speed": 1.6 },
-                           { "angle": 190, "length": 20, "speed": 2 },
-                           { "angle": 95, "length": 40, "speed": 2.2 }
+                           { "angle": 0, "length": 180, "speed": 2.3 },
+                           { "angle": 120, "length": 180, "speed": 2.3 },
+                           { "angle": 240, "length": 180, "speed": 2.3 }
                            ]
                   },
-                  {
-                  "position": { "x": 155, "y": 75 },
-                  "arms": [
-                           { "angle": 220, "length": 50, "speed": 1.6 },
-                           { "angle": 190, "length": 20, "speed": 2 },
-                           { "angle": 95, "length": 40, "speed": 2.2 }
-                           ]
-                  }
                   ]
     },
     "level-5": {
@@ -110,63 +106,26 @@ var levels = {
                   {
                   "position": { "x": 30, "y": 50 },
                   "arms": [
-                           { "angle": 000, "length": 140, "speed": 2 },
-                           { "angle": 090, "length": 140, "speed": 2 },
-                           { "angle": 180, "length": 140, "speed": 2 },
-                           { "angle": 270, "length": 140, "speed": 2 }
+                           { "angle": 0, "length": 180, "speed": 2.3 },
+                           { "angle": 120, "length": 180, "speed": 2.3 },
+                           { "angle": 240, "length": 180, "speed": 2.3 }
                          ]
                   },
                   {
                   "position": { "x": 70, "y": 100 },
                   "arms": [
-                           { "angle": 000, "length": 40, "speed": 2 },
-                           { "angle": 045, "length": 50, "speed": 2 },
-                           { "angle": 090, "length": 40, "speed": 2 },
-                           { "angle": 135, "length": 50, "speed": 2 },
-                           { "angle": 180, "length": 40, "speed": 2 },
-                           { "angle": 225, "length": 50, "speed": 2 },
-                           { "angle": 270, "length": 40, "speed": 2 },
-                           { "angle": 315, "length": 50, "speed": 2 },
+                           { "angle": 0, "length": 180, "speed": 2.3 },
+                           { "angle": 120, "length": 180, "speed": 2.3 },
+                           { "angle": 240, "length": 180, "speed": 2.3 }
                         ]
 
                   },
                   {
                   "position": { "x": 150, "y": 200 },
                   "arms": [
-                           { "angle": 000, "length": 40, "speed": 2 },
-                           { "angle": 045, "length": 50, "speed": 2 },
-                           { "angle": 090, "length": 40, "speed": 2 },
-                           { "angle": 135, "length": 50, "speed": 2 },
-                           { "angle": 180, "length": 40, "speed": 2 },
-                           { "angle": 225, "length": 50, "speed": 2 },
-                           { "angle": 270, "length": 40, "speed": 2 },
-                           { "angle": 315, "length": 50, "speed": 2 },
-                        ]
-                  },
-                  {
-                  "position": { "x": 125, "y": 20 },
-                  "arms": [
-                           { "angle": 000, "length": 40, "speed": 2 },
-                           { "angle": 045, "length": 50, "speed": 2 },
-                           { "angle": 090, "length": 40, "speed": 2 },
-                           { "angle": 135, "length": 50, "speed": 2 },
-                           { "angle": 180, "length": 40, "speed": 2 },
-                           { "angle": 225, "length": 50, "speed": 2 },
-                           { "angle": 270, "length": 40, "speed": 2 },
-                           { "angle": 315, "length": 50, "speed": 2 },
-                        ]
-                  },
-                  {
-                  "position": { "x": 300, "y": 220 },
-                  "arms": [
-                           { "angle": 000, "length": 40, "speed": 2 },
-                           { "angle": 045, "length": 50, "speed": 2 },
-                           { "angle": 090, "length": 40, "speed": 2 },
-                           { "angle": 135, "length": 50, "speed": 2 },
-                           { "angle": 180, "length": 40, "speed": 2 },
-                           { "angle": 225, "length": 50, "speed": 2 },
-                           { "angle": 270, "length": 40, "speed": 2 },
-                           { "angle": 315, "length": 50, "speed": 2 },
+                           { "angle": 0, "length": 180, "speed": 2.3 },
+                           { "angle": 120, "length": 180, "speed": 2.3 },
+                           { "angle": 240, "length": 180, "speed": 2.3 }
                         ]
                   }
                   ]
@@ -178,7 +137,7 @@ canvas.width = width;
 canvas.height = height;
 
 
- var myFirstCircle;
+ var cursorCircle;
  // array for gears
  var gears = [];
  var gameOver = false;
@@ -221,7 +180,6 @@ function loadJSON(path, callback) {
 }
 
 function setupLevelGears(levelGears){
-    console.log("\n\n\n LEVEL: ", level);
     //clean gears
     gears = [];
     for (var i = 0; i < levelGears.length; i++){
@@ -238,120 +196,95 @@ function setupLevelGears(levelGears){
     level++;
 }
 
+
+
+function setup(){
+    //start the circle
+    cursorCircle = new Circle(ctx);
+    resetCircle(cursorCircle)
+    //interaction
+    document.addEventListener('touchstart', onTouchStart);
+    document.addEventListener('touchend', onTouchEnd);
+             
+    draw();
+}
+
+function onTouchStart(e){
+    cursorCircle.isAllowToMove = false;
+    cursorCircle.color ="rgba(255,255,255,0.2)";
+}
+function onTouchEnd(e){
+    cursorCircle.isAllowToMove = true;
+    cursorCircle.color = "rgba(255,255,255,1)";
+//    console.log(e);
+    
+    var mappedSpeedValue = e.changedTouches[0].pageY.map(0,window.innerHeight, 0,8);
+        cursorCircle.speed = mappedSpeedValue;
+}
+
+function newLevel(){
+    return (cursorCircle.y - cursorCircle.r)  > height
+}
+
 function resetCircle(c){
     c.x = width/2;
     c.y = height - 40;
     c.r = 20;
 }
 
-function setup(){
-    myFirstCircle = new Circle(ctx);
-    resetCircle(myFirstCircle)
-    // create gears
-    
-    console.log("\n\n\n\n Ready to read file.\n\n\n\n")
-    //loadJSON('levels.json', function(data){
-//        levels = data && JSON.parse(data) || levels;
-//        gears = [];
-//            for (var i = 0; i < levels[]; i++){
-//             gears[i] = new Gear(ctx);
-//             gears[i].setPosition(getRandomInt(0,width),getRandomInt(0,height));
-//             gears[i].addPoint(getRandomInt(1,200),getRandomInt(0,360),getRandomInt(0.5,2));
-//             gears[i].addPoint(getRandomInt(1,100),getRandomInt(0,360),getRandomInt(0.6,2));
-//             gears[i].addPoint(getRandomInt(1,200),getRandomInt(0,360),getRandomInt(0.5,2));
-//             gears[i].addPoint(getRandomInt(1,200),getRandomInt(0,360),getRandomInt(0.5,2));
-//             
-//            }
-             setupLevelGears(levels["level-" + level].gears);
-             
-             //interaction
-             document.addEventListener('touchstart', onTouchStart);
-             document.addEventListener('touchend', onTouchEnd);
-             
-             draw();
-    //})
-    
-//something like this to load the new levels from json file
-//    function loadLevel(){
-//        var mylevel = allJSONS[0];
-//        allJSONS.shift();
-//        
-//        
-//    }
-    
-    
-//    gears[0].setPosition(50,50);
-//    
-//    gears[1].setPosition(0,460);
-//    gears[2].setPosition(50,300);
-//    gears[3].setPosition(20,80);
-    
-//    gears[1].setPosition(50,50);
-//    gears[1].addPoint(220,50,1.6);
-//    gears[1].addPoint(190,20,2);
-//    gears[1].addPoint(95,0,2.2);
-//    gears[1].addPoint(50,90,1);
-//
-//    
-//    gears[2].setPosition(0,460);
-//    gears[2].addPoint(190,20,1);
-//    gears[2].addPoint(95,0,0.5);
-//    gears[2].addPoint(50,90,1);
-//    
-//    gears[3].setPosition(50,300);
-//    gears[3].addPoint(100,290,1);
-//    
-
-
-
-}
-
-function onTouchStart(e){
-    myFirstCircle.isAllowToMove = false;
-    myFirstCircle.color ="rgba(255,255,255,0.2)";
-}
-function onTouchEnd(e){
-    myFirstCircle.isAllowToMove = true;
-    myFirstCircle.color = "rgba(255,255,255,1)";
-//    console.log(e);
-    
-    var mappedSpeedValue = e.changedTouches[0].pageY.map(0,window.innerHeight, 0,8);
-        myFirstCircle.speed = mappedSpeedValue;
-}
-
-function newLevel(){
-    return (myFirstCircle.y - myFirstCircle.r)  > height
+function showMessage(ctx, message, font, color, offset){
+    offset = offset || 0;
+    ctx.font = font || "20px Helevetica";
+    ctx.fillText(message, width/2, height/2 + offset);
+    ctx.textAlign = 'center';
+    ctx.fillStyle = color || "rgba(150,255,150,1)";
 }
 
 
 function draw(){
-    ctx.clearRect(0,0,width,height)
-    if(!gameOver && newLevel() && levels["level-" + level]){
-       resetCircle(myFirstCircle)
-       setupLevelGears(levels["level-" + level].gears);
-       
-        gameOver = false;
-    } else if (gameOver) {
-        ctx.font = "40px Helevetica";
-        ctx.fillText("Game Over",width/2 - 100, height/2);
-        ctx.fillStyle = "white";
-    } else if(newLevel()) {
-        ctx.font = "40px Helevetica";
-        ctx.fillText("No more levels: get a life",width/2 - 100, height/2);
-        ctx.fillStyle = "white";
-    } else {
-        // drawing the first circle
-        myFirstCircle.display();
-        if(myFirstCircle.isAllowToMove){
-            myFirstCircle.move();
+    if(showSplashScreen){
+        showMessage(ctx, "Welcome to","25px Helvetica Neue",  "rgba(200,50,50,1)", -15);
+        showMessage(ctx, "GearGame (GG)","25px Helvetica Neue",  "rgba(200,50,50,1)", 15);
+        if(!levelScreenStartTime) {
+            levelScreenStartTime = new Date().getTime();
+        } else if((new Date().getTime() - levelScreenStartTime) > LEVEL_MESSAGE_DURATION) {
+            levelScreenStartTime = null;
+            showSplashScreen = false;
+            startGame = true;
         }
-    
-        //everything about the gears
-        for(var i = 0; i < gears.length; i++){
-            gears[i].display();
-            gears[i].update();
-            if(myFirstCircle.isAllowToMove && !gameOver){
-                gameOver = gears[i].checkIntersection(myFirstCircle);
+    } else {
+        ctx.clearRect(0,0,width,height)
+        if(!gameOver && (startGame || newLevel()) && levels["level-" + level]){
+            if(levelScreenStartTime && (new Date().getTime() - levelScreenStartTime) > LEVEL_MESSAGE_DURATION){
+                startGame = false;
+                resetCircle(cursorCircle)
+                setupLevelGears(levels["level-" + level].gears);
+                levelScreenStartTime = null;
+                gameOver = false;
+            } else if (startGame || levelScreenStartTime){
+                levelScreenStartTime = levelScreenStartTime || new Date().getTime();
+                showMessage(ctx, levels["level-" + level].message);
+            } else {
+                levelScreenStartTime = new Date().getTime();
+            }
+        } else if (gameOver) {
+            showMessage(ctx, "Game Over","30px Helvetica Neue");
+        } else if(newLevel()) {
+            showMessage(ctx, "No more levels: get a life");
+        } else {
+            // drawing the first circle
+            cursorCircle.display();
+            if(cursorCircle.isAllowToMove){
+                cursorCircle.move();
+            }
+        
+            //everything about the gears
+            for(var i = 0; i < gears.length; i++){
+                gears[i].display();
+                gears[i].update();
+                if(cursorCircle.isAllowToMove && !gameOver){
+                    gameOver = gears[i].checkIntersection(cursorCircle);
+                }
             }
         }
     }

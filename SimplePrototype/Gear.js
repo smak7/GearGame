@@ -8,7 +8,7 @@ var Gear = function(ctx){
     
     //create our center circle
     this.cc = new Circle(ctx);
-    this.cc.r = 5;
+    this.cc.r = 7.5;
     this.cc.color = 'white';
     this.ctx.lineWidth = 3;
     this.ctx.strokeStyle = "rgba(255,255,255,1)";
@@ -74,6 +74,8 @@ Gear.prototype={
                 break;
             }
         }
+        //debugging for levels ... diasable/delete
+//        return false;
         return touching;
     },
     IsInBoundingBox: function(point, x1, y1, x2, y2){

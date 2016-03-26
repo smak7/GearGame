@@ -1,0 +1,36 @@
+{
+    "1": {
+        "message": "Level 1",
+        "gears": [
+          {
+            "position": { "x": 70, "y": 100 },
+            "arms": [
+                { "angle": 220, "length": 50, "speed": 1.6 },
+                { "angle": 190, "length": 20, "speed": 2 },
+                { "angle": 95, "length": 40, "speed": 2.2 }
+            ]
+          }
+        ]
+    }
+    "2": {
+        
+        "gears": [
+          {
+            "position": { "x": 70, "y": 100 },
+            "arms": [
+                { "angle": 220, "length": 50, "speed": 1.6 },
+                { "angle": 190, "length": 20, "speed": 2 },
+                { "angle": 95, "length": 40, "speed": 2.2 }
+            ]
+          },
+          {
+            "position": { "x": 100, "y": 100 },
+             "arms": [
+                { "angle": 220, "length": 50, "speed": 1.6 },
+                { "angle": 190, "length": 20, "speed": 2 },
+                { "angle": 95, "length": 40, "speed": 2.2 }
+            ]
+          }
+        ]
+    }
+}
